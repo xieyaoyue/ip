@@ -11,20 +11,28 @@ public class Duke {
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
         String line;
-        String[] list = new String[100];
-        int listNumber = 0;
+        Task[] tasks = new Task[100];
+        int totalTasks=0;
         do {
             Scanner in = new Scanner(System.in);
             line = in.nextLine();
-            System.out.println(line);
             if(line.equals("list")) {
-                for (int i = 0; i < listNumber; i++) {
-                    System.out.println(i + 1 + ". " + list[i]);
+                System.out.println("Here are the tasks in your list:");
+                for(int taskNumber = 0; taskNumber < totalTasks; taskNumber++) {
+                    System.out.println(taskNumber + 1 + ".[" + tasks[taskNumber].getStatusIcon() + "] " + tasks[taskNumber].description);
                 }
-            } else if(!line.equals("bye")) {
-                list[listNumber] = line;
+            } else if(line.startsWith("done")) {
+                String[] words = line.split(" ");
+                int updateNumber = Integer.parseInt(words[1])-1;
+                if(updateNumber>=0 && updateNumber<totalTasks) {
+                    tasks[updateNumber].markAsDone();
+                    System.out.println("Nice! I've marked this task as done: ");
+                    System.out.println("[" + tasks[updateNumber].getStatusIcon() + "] " + tasks[updateNumber].description);
+                }
+            } else if(!line.equals("bye")){
+                tasks[totalTasks] = new Task(line);
                 System.out.println("added: " + line);
-                listNumber++;
+                totalTasks++;
             }
         } while(!line.equals("bye"));
         System.out.println("Bye. Hope to see you again soon!");
