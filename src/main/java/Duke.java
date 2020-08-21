@@ -11,10 +11,21 @@ public class Duke {
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
         String line;
+        String[] list = new String[100];
+        int listNumber = 0;
         do {
             Scanner in = new Scanner(System.in);
             line = in.nextLine();
             System.out.println(line);
+            if(line.equals("list")) {
+                for (int i = 0; i < listNumber; i++) {
+                    System.out.println(i + 1 + ". " + list[i]);
+                }
+            } else if(!line.equals("bye")) {
+                list[listNumber] = line;
+                System.out.println("added: " + line);
+                listNumber++;
+            }
         } while(!line.equals("bye"));
         System.out.println("Bye. Hope to see you again soon!");
     }
