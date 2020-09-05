@@ -6,7 +6,29 @@ public class Duke {
     private static Task[] tasks = new Task[MAX_TASK];
     private static int totalTasks = 0;
 
+    public static void addTodo(String task) {
+        tasks[totalTasks] = new Todo(task);
+    }
+
+    public static void addEvent(String task) {
+        String[] words = task.split("/at");
+        tasks[totalTasks] = new Event(words[0], words[1]);
+    }
+
+    public static void addDeadline(String task) {
+        String[] words = task.split("/by");
+        tasks[totalTasks] = new Deadline(words[0], words[1]);
+    }
+
+    public static void updateDone(int updateNumber) {
+        tasks[updateNumber].markAsDone();
+    }
+
     public static void printList() {
+        if(totalTasks==0) {
+            System.out.println("List is empty.");
+            return;
+        }
         System.out.println("Here are the tasks in your list:");
         for(int taskNumber = 0; taskNumber < totalTasks; taskNumber++) {
             System.out.println(taskNumber + 1 + "." + tasks[taskNumber]);
@@ -34,34 +56,73 @@ public class Duke {
         System.out.println(logo);
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
-        String line;
+        String command;
+        String lowerCaseCommand;
         do {
             Scanner in = new Scanner(System.in);
-            line = in.nextLine();
-            if(line.equals("list")) {
-                printList();
-            } else if(line.startsWith("done")) {
-                String[] words = line.split(" ");
-                int updateNumber = Integer.parseInt(words[1])-1;
-                if(updateNumber>=0 && updateNumber<totalTasks) {
-                    tasks[updateNumber].markAsDone();
-                    printDone(updateNumber);
+            command = in.nextLine();
+
+            // remove all unnecessary spaces in input
+            command = command.trim();
+
+            // input on type of task should be case-insensitive
+            lowerCaseCommand = command.toLowerCase();
+
+            try {
+                if(lowerCaseCommand.equals("done")) {
+                    throw new emptyDoneException();
+                } else if (lowerCaseCommand.equals("todo") || lowerCaseCommand.equals("event") || lowerCaseCommand.equals("deadline")) {
+                    throw new emptyTaskException();
                 }
-            } else if(line.startsWith("todo")) {
-                tasks[totalTasks] = new Todo(line.substring(5));
-                printTaskUpdate();
-            } else if(line.startsWith("deadline")) {
-                line = line.substring(9);
-                String[] words = line.split("/by");
-                tasks[totalTasks] = new Deadline(words[0], words[1]);
-                printTaskUpdate();
-            } else if(line.startsWith("event")) {
-                line = line.substring(6);
-                String[] words = line.split("/at");
-                tasks[totalTasks] = new Event(words[0], words[1]);
-                printTaskUpdate();
+            } catch (DukeException e) {
+                continue;
             }
-        } while(!line.equals("bye"));
+            if(lowerCaseCommand.equals("list")) {
+                printList();
+            } else if(lowerCaseCommand.startsWith("done")) {
+                String[] words = command.split(" ");
+                int updateNumber = Integer.parseInt(words[1]) - 1;
+                try {
+                    if (!(updateNumber >= 0 && updateNumber < totalTasks)) {
+                        throw new invalidDoneNumberException();
+                    }
+                } catch (DukeException e) {
+                    continue;
+                }
+                updateDone(updateNumber);
+                printDone(updateNumber);
+            } else if(lowerCaseCommand.startsWith("todo")) {
+                addTodo(command.substring(5));
+                printTaskUpdate();
+            } else if(lowerCaseCommand.startsWith("deadline")) {
+                String task = command.substring(9);
+                try {
+                    if (!command.matches("(.*)/by(.*)") || command.matches("(.*)/by")) {
+                        throw new noDueTimeException();
+                    }
+                } catch(DukeException e) {
+                    continue;
+                }
+                addDeadline(task);
+                printTaskUpdate();
+            } else if(lowerCaseCommand.startsWith("event")) {
+                String task = command.substring(6);
+                try {
+                    if (!command.matches("(.*)/at(.*)") || command.matches("(.*)/at")) {
+                        throw new noEventTimeException();
+                    }
+                } catch(DukeException e){
+                    continue;
+                }
+                addEvent(task);
+                printTaskUpdate();
+            } else if(!lowerCaseCommand.equals("bye")) {
+                try {
+                    throw new unsureMeaningException();
+                } catch(DukeException ignored) {
+                }
+            }
+        } while(!lowerCaseCommand.equals("bye"));
         System.out.println("Bye. Hope to see you again soon!");
     }
 }
