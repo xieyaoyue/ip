@@ -1,3 +1,11 @@
+package Duke;
+
+import Duke.Exceptions.*;
+import Duke.Task.Deadline;
+import Duke.Task.Event;
+import Duke.Task.Task;
+import Duke.Task.Todo;
+
 import java.util.Scanner;
 
 public class Duke {
@@ -54,7 +62,7 @@ public class Duke {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println(logo);
-        System.out.println("Hello! I'm Duke");
+        System.out.println("Hello! I'm Duke.");
         System.out.println("What can I do for you?");
         String command;
         String lowerCaseCommand;
@@ -70,9 +78,9 @@ public class Duke {
 
             try {
                 if(lowerCaseCommand.equals("done")) {
-                    throw new emptyDoneException();
+                    throw new EmptyDoneException();
                 } else if (lowerCaseCommand.equals("todo") || lowerCaseCommand.equals("event") || lowerCaseCommand.equals("deadline")) {
-                    throw new emptyTaskException();
+                    throw new EmptyTaskException();
                 }
             } catch (DukeException e) {
                 continue;
@@ -84,7 +92,7 @@ public class Duke {
                 int updateNumber = Integer.parseInt(words[1]) - 1;
                 try {
                     if (!(updateNumber >= 0 && updateNumber < totalTasks)) {
-                        throw new invalidDoneNumberException();
+                        throw new InvalidDoneNumberException();
                     }
                 } catch (DukeException e) {
                     continue;
@@ -98,7 +106,7 @@ public class Duke {
                 String task = command.substring(9);
                 try {
                     if (!command.matches("(.*)/by(.*)") || command.matches("(.*)/by")) {
-                        throw new noDueTimeException();
+                        throw new NoDueTimeException();
                     }
                 } catch(DukeException e) {
                     continue;
@@ -109,7 +117,7 @@ public class Duke {
                 String task = command.substring(6);
                 try {
                     if (!command.matches("(.*)/at(.*)") || command.matches("(.*)/at")) {
-                        throw new noEventTimeException();
+                        throw new NoEventTimeException();
                     }
                 } catch(DukeException e){
                     continue;
@@ -118,7 +126,7 @@ public class Duke {
                 printTaskUpdate();
             } else if(!lowerCaseCommand.equals("bye")) {
                 try {
-                    throw new unsureMeaningException();
+                    throw new UnsureMeaningException();
                 } catch(DukeException ignored) {
                 }
             }
