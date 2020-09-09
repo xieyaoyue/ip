@@ -11,30 +11,24 @@ import java.util.Scanner;
 
 public class Duke {
 
-    //public static final int MAX_TASK = 100;
-    //private static Task[] tasks = new Task[MAX_TASK];
     private static ArrayList<Task> tasks = new ArrayList<>();
     private static int totalTasks = 0;
 
     public static void addTodo(String task) {
-        //tasks[totalTasks] = new Todo(task);
         tasks.add(new Todo(task));
     }
 
     public static void addEvent(String task) {
         String[] words = task.split("/at");
-        //tasks[totalTasks] = new Event(words[0], words[1]);
         tasks.add(new Event(words[0], words[1]));
     }
 
     public static void addDeadline(String task) {
         String[] words = task.split("/by");
-        //tasks[totalTasks] = new Deadline(words[0], words[1]);
         tasks.add(new Deadline(words[0], words[1]));
     }
 
     public static void updateDone(int updateNumber) {
-        //tasks[updateNumber].markAsDone();
         tasks.get(updateNumber).markAsDone();
     }
 
@@ -49,14 +43,12 @@ public class Duke {
         }
         System.out.println("Here are the tasks in your list:");
         for(int taskNumber = 0; taskNumber < totalTasks; taskNumber++) {
-            //System.out.println(taskNumber + 1 + "." + tasks[taskNumber]);
             System.out.println(taskNumber + 1 + "." + tasks.get(taskNumber));
         }
     }
 
     public static void printDone(int updateNumber) {
         System.out.println("Nice! I've marked this task as done: ");
-        //System.out.println(tasks[updateNumber]);
         System.out.println(tasks.get(updateNumber));
     }
 
@@ -69,7 +61,6 @@ public class Duke {
 
     public static void printUpdate() {
         System.out.println("Got it. I've added this task: ");
-        //System.out.println(tasks[totalTasks]);
         System.out.println(tasks.get(totalTasks));
         totalTasks++;
         System.out.println((totalTasks==1)? "Now you have 1 task in the list." : "Now you have " + totalTasks + " tasks in the list.");
@@ -80,7 +71,7 @@ public class Duke {
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
                 + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|";
+                + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println(logo);
         System.out.println("Hello! I'm Duke.");
         System.out.println("What can I do for you?");
