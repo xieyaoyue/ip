@@ -1,75 +1,124 @@
 package Duke;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import Duke.Exceptions.*;
-import Duke.Task.Deadline;
-import Duke.Task.Event;
-import Duke.Task.Task;
-import Duke.Task.Todo;
-
+import Duke.Task.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Duke {
 
-    //public static final int MAX_TASK = 100;
-    //private static Task[] tasks = new Task[MAX_TASK];
     private static ArrayList<Task> tasks = new ArrayList<>();
     private static int totalTasks = 0;
 
-    public static void addTodo(String task) {
-        //tasks[totalTasks] = new Todo(task);
+    private static final String home = System.getProperty("user.home");
+    private static final String dirPath = home + File.separator + "Documents" + File.separator + "CS2113T";
+    private static final String filePath = home + File.separator + "Documents" + File.separator + "CS2113T"
+            + File.separator + "tasks.txt";
+
+    private static void loadFile() {
+        if(!new File(dirPath).exists()) {
+            System.out.println("Folder does not exist yet.");
+        } else {
+            try {
+                readFileContents();
+            } catch (FileNotFoundException e) {
+                System.out.println("File is not found.");
+            }
+        }
+    }
+
+    private static void readFileContents() throws FileNotFoundException {
+        File f = new File(filePath);
+        try {
+            if(f.createNewFile()) {
+                System.out.println("New file is created at this location for storing your task list: " + dirPath);
+            }
+        } catch(IOException e) {
+            System.out.println("An error has occurred.");
+        }
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            String thisLine = s.nextLine();
+            String[] words = thisLine.split("\\|", 4);
+            switch(words[0].trim()) {
+            case "T":
+                tasks.add(new Todo(words[2].trim()));
+                break;
+            case "E":
+                tasks.add(new Event(words[2].trim(), words[3].trim()));
+                break;
+            case "D":
+                tasks.add(new Deadline(words[2].trim(), words[3].trim()));
+                break;
+            default:
+                System.out.println("This line is not added to list:" + thisLine);
+            }
+            if(Integer.parseInt(words[1].trim())==1) {
+                tasks.get(totalTasks).markAsDone();
+            }
+            totalTasks++;
+        }
+    }
+
+    private static void saveTaskList() throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        for(int i = 0; i< totalTasks; ++i) {
+            fw.write(tasks.get(i).storeString() + "\n");
+        }
+        fw.close();
+    }
+
+    private static void addTodo(String task) {
         tasks.add(new Todo(task));
     }
 
-    public static void addEvent(String task) {
+    private static void addEvent(String task) {
         String[] words = task.split("/at");
-        //tasks[totalTasks] = new Event(words[0], words[1]);
         tasks.add(new Event(words[0], words[1]));
     }
 
-    public static void addDeadline(String task) {
+    private static void addDeadline(String task) {
         String[] words = task.split("/by");
-        //tasks[totalTasks] = new Deadline(words[0], words[1]);
         tasks.add(new Deadline(words[0], words[1]));
     }
 
-    public static void updateDone(int updateNumber) {
-        //tasks[updateNumber].markAsDone();
+    private static void updateDone(int updateNumber) {
         tasks.get(updateNumber).markAsDone();
     }
 
-    public static void updateDelete(int deleteNumber) {
+    private static void updateDelete(int deleteNumber) {
         tasks.remove(deleteNumber);
     }
 
-    public static void printList() {
+    private static void printList() {
         if(totalTasks==0) {
             System.out.println("List is empty.");
             return;
         }
         System.out.println("Here are the tasks in your list:");
         for(int taskNumber = 0; taskNumber < totalTasks; taskNumber++) {
-            //System.out.println(taskNumber + 1 + "." + tasks[taskNumber]);
             System.out.println(taskNumber + 1 + "." + tasks.get(taskNumber));
         }
     }
 
-    public static void printDone(int updateNumber) {
+    private static void printDone(int updateNumber) {
         System.out.println("Nice! I've marked this task as done: ");
-        //System.out.println(tasks[updateNumber]);
         System.out.println(tasks.get(updateNumber));
     }
 
-    public static void printDelete(int deleteNumber) {
+    private static void printDelete(int deleteNumber) {
         System.out.println("Noted. I've removed this task: ");
         System.out.println(tasks.get(deleteNumber));
         totalTasks -= 1;
         System.out.println((totalTasks==1)? "Now you have 1 task in the list." : "Now you have " + totalTasks + " tasks in the list.");
     }
 
-    public static void printUpdate() {
+    private static void printUpdate() {
         System.out.println("Got it. I've added this task: ");
-        //System.out.println(tasks[totalTasks]);
         System.out.println(tasks.get(totalTasks));
         totalTasks++;
         System.out.println((totalTasks==1)? "Now you have 1 task in the list." : "Now you have " + totalTasks + " tasks in the list.");
@@ -86,6 +135,7 @@ public class Duke {
         System.out.println("What can I do for you?");
         String command;
         String lowerCaseCommand;
+        loadFile();
         do {
             Scanner in = new Scanner(System.in);
             command = in.nextLine();
@@ -97,11 +147,12 @@ public class Duke {
             lowerCaseCommand = command.toLowerCase();
 
             try {
-                if(lowerCaseCommand.equals("done")) {
+                switch (lowerCaseCommand) {
+                case "done":
                     throw new EmptyDoneException();
-                } else if(lowerCaseCommand.equals("delete")) {
+                case "delete":
                     throw new EmptyDeleteException();
-                } else if (lowerCaseCommand.equals("todo") || lowerCaseCommand.equals("event") || lowerCaseCommand.equals("deadline")) {
+                case "todo": case "event": case "deadline":
                     throw new EmptyTaskException();
                 }
             } catch (DukeException e) {
@@ -121,6 +172,11 @@ public class Duke {
                 }
                 updateDone(updateNumber);
                 printDone(updateNumber);
+                try {
+                    saveTaskList();
+                } catch(IOException e) {
+                    System.out.println("Something went wrong: " + e.getMessage());
+                }
             } else if(lowerCaseCommand.startsWith("delete")) {
                 String[] words = command.split(" ");
                 int deleteNumber = Integer.parseInt(words[1]) - 1;
@@ -133,9 +189,19 @@ public class Duke {
                 }
                 printDelete(deleteNumber);
                 updateDelete(deleteNumber);
+                try {
+                    saveTaskList();
+                } catch(IOException e) {
+                    System.out.println("Something went wrong: " + e.getMessage());
+                }
             } else if(lowerCaseCommand.startsWith("todo")) {
                 addTodo(command.substring(5));
                 printUpdate();
+                try {
+                    saveTaskList();
+                } catch(IOException e) {
+                    System.out.println("Something went wrong: " + e.getMessage());
+                }
             } else if(lowerCaseCommand.startsWith("deadline")) {
                 String task = command.substring(9);
                 try {
@@ -147,6 +213,11 @@ public class Duke {
                 }
                 addDeadline(task);
                 printUpdate();
+                try {
+                    saveTaskList();
+                } catch(IOException e) {
+                    System.out.println("Something went wrong: " + e.getMessage());
+                }
             } else if(lowerCaseCommand.startsWith("event")) {
                 String task = command.substring(6);
                 try {
@@ -158,6 +229,11 @@ public class Duke {
                 }
                 addEvent(task);
                 printUpdate();
+                try {
+                    saveTaskList();
+                } catch(IOException e) {
+                    System.out.println("Something went wrong: " + e.getMessage());
+                }
             } else if(!lowerCaseCommand.equals("bye")) {
                 try {
                     throw new UnsureMeaningException();
