@@ -22,12 +22,17 @@ public class Duke {
     private static void loadFile() {
         if(!new File(dirPath).exists()) {
             System.out.println("Folder does not exist yet.");
-        } else {
-            try {
-                readFileContents();
-            } catch (FileNotFoundException e) {
-                System.out.println("File is not found.");
+            File dir = new File(dirPath);
+            if(dir.mkdir()) {
+                System.out.println("New folder is created at this location: " + dirPath);
+            } else {
+                System.out.println("Oops! There's some problem in creating new folder.");
             }
+        }
+        try {
+            readFileContents();
+        } catch (FileNotFoundException e) {
+            System.out.println("File is not found.");
         }
     }
 
@@ -35,7 +40,7 @@ public class Duke {
         File f = new File(filePath);
         try {
             if(f.createNewFile()) {
-                System.out.println("New file is created at this location for storing your task list: " + dirPath);
+                System.out.println("New file is created in the folder for storing task list.");
             }
         } catch(IOException e) {
             System.out.println("An error has occurred.");
@@ -131,11 +136,11 @@ public class Duke {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println(logo);
+        loadFile();
         System.out.println("Hello! I'm Duke.");
         System.out.println("What can I do for you?");
         String command;
         String lowerCaseCommand;
-        loadFile();
         do {
             Scanner in = new Scanner(System.in);
             command = in.nextLine();
