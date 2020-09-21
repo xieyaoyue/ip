@@ -17,7 +17,7 @@ public class Duke {
     private static void start(String[] args) {
         ui = new Ui();
         try {
-            storage = initializeStorage(args);
+            storage = Storage.initializeStorage(args);
             tasklist = storage.load();
         } catch(DukeException e) {
             ui.showError(e.getMessage());
@@ -42,11 +42,6 @@ public class Duke {
 
     private static void exit() {
         System.exit(0);
-    }
-
-    private static Storage initializeStorage(String[] Args) throws InvalidStorageFilePathException, StorageOperationException {
-        boolean isStorageFileSpecifiedByUser = Args.length > 0;
-        return isStorageFileSpecifiedByUser? new Storage(Args[0]) : new Storage();
     }
 
     public static void main(String[] Args) {
