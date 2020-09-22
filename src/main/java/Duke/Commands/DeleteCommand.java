@@ -6,6 +6,9 @@ import Duke.Ui;
 import Duke.TaskList;
 import Duke.Storage;
 
+/**
+ * Deletes a task using its last displayed index from the task list.
+ */
 public class DeleteCommand extends Command {
 
     private String details;
