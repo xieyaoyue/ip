@@ -1,7 +1,7 @@
 package Duke.Exceptions;
 
-public class NoDueTimeException extends DukeException{
-    public NoDueTimeException() {
-        System.out.println("Please specify the due time.");
+public class NoDueTimeException extends DukeException {
+    public String getMessage() {
+        return "Please specify the due time.";
     }
 }
