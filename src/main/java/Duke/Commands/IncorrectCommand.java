@@ -1,9 +1,6 @@
 package Duke.Commands;
 
-import Duke.Exceptions.EmptyDeleteException;
-import Duke.Exceptions.EmptyDoneException;
-import Duke.Exceptions.EmptyTaskException;
-import Duke.Exceptions.UnsureMeaningException;
+import Duke.Exceptions.*;
 import Duke.Ui;
 import Duke.TaskList;
 import Duke.Storage;
@@ -17,12 +14,15 @@ public class IncorrectCommand extends Command {
     }
 
     public void execute(TaskList tasklist, Ui ui, Storage storage) throws EmptyDoneException,
-            EmptyDeleteException, EmptyTaskException, UnsureMeaningException {
+            EmptyDeleteException, EmptyTaskException, UnsureMeaningException,
+            EmptyFindException {
         switch(details) {
         case "empty done":
             throw new EmptyDoneException();
         case "empty delete":
             throw new EmptyDeleteException();
+        case "empty find":
+            throw new EmptyFindException();
         case "empty task":
             throw new EmptyTaskException();
         case "unsure":

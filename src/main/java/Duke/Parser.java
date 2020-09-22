@@ -19,6 +19,9 @@ public class Parser {
         case "delete":
             c = new IncorrectCommand("empty delete");
             return c;
+        case "find":
+            c = new IncorrectCommand("empty find");
+            return c;
         case "todo":
         case "event":
         case "deadline":
@@ -28,6 +31,8 @@ public class Parser {
         String[] words = userInput.split(" ", 2);
         if(lowerCaseInput.equals("list")) {
             c = new ListCommand();
+        } else if(lowerCaseInput.startsWith("find")) {
+            c = new FindCommand(words[1]);
         } else if(lowerCaseInput.startsWith("done")) {
             c = new DoneCommand(words[1]);
         } else if(lowerCaseInput.startsWith("delete")) {

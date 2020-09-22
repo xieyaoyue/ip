@@ -35,8 +35,13 @@ public class Storage {
         }
     }
 
-    private static boolean isValidPath(String filePath) {
+    private boolean isValidPath(String filePath) {
         return filePath.endsWith(".txt");
+    }
+
+    public static Storage initializeStorage(String[] Args) throws InvalidStorageFilePathException, StorageOperationException {
+        boolean isStorageFileSpecifiedByUser = Args.length > 0;
+        return isStorageFileSpecifiedByUser? new Storage(Args[0]) : new Storage();
     }
 
     public TaskList load() throws StorageOperationException {
