@@ -59,6 +59,31 @@ public class TaskList {
         totalTasks++;
     }
 
+    public ArrayList<Task> findTasks(String keyword) {
+        boolean hasKeyword;
+        ArrayList<Task> keywordTasks = new ArrayList<>();
+        for(Task task: tasks) {
+            hasKeyword = false;
+            if(task.getDescription().contains(keyword)) {
+                hasKeyword = true;
+            } else if(task instanceof Event) {
+                Event event = (Event) task;
+                if(event.getAt().contains(keyword)) {
+                    hasKeyword = true;
+                }
+            } else if(task instanceof Deadline) {
+                Deadline deadline = (Deadline) task;
+                if(deadline.getBy().contains(keyword)) {
+                    hasKeyword = true;
+                }
+            }
+            if(hasKeyword) {
+                keywordTasks.add(task);
+            }
+        }
+        return keywordTasks;
+    }
+
     /**
      * @return the details of a task based on its latest index in the task list.
      */

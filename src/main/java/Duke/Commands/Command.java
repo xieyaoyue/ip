@@ -17,8 +17,9 @@ public abstract class Command {
      */
     public abstract void execute(TaskList tasklist, Ui ui, Storage storage) throws
             NoEventTimeException, NoDueTimeException, InvalidDeleteNumberException,
-            EmptyDoneException, EmptyDeleteException, EmptyTaskException, UnsureMeaningException,
-            InvalidDoneNumberException, StorageOperationException;
+            EmptyDoneException, EmptyDeleteException, EmptyTaskException,
+            UnsureMeaningException, InvalidDoneNumberException, StorageOperationException,
+            EmptyFindException;
 
     /**
      * @return true if the user wants to end program, false if otherwise.

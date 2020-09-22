@@ -46,6 +46,7 @@ public class Storage {
         }
     }
 
+
     /**
      * File path is considered valid if it ends with '.txt'
      * Returns true if the given path is acceptable as a storage file.

@@ -1,5 +1,8 @@
 package Duke;
 
+import Duke.Task.Task;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -20,6 +23,8 @@ public class Ui {
     private static final String MESSAGE_DELETE = "Noted. I've removed this task:\n %1$s";
     private static final String MESSAGE_CURRENT_STATUS = "Now you have %1$d %2$s in the list.";
     private static final String MESSAGE_EMPTY_LIST = "List is empty.";
+    private static final String MESSAGE_MATCHING_TASKS = "Here are the matching tasks in your list:";
+    private static final String MESSAGE_EMPTY_MATCH = "There's no match.";
     private final Scanner in;
 
     public Ui() {
@@ -62,6 +67,19 @@ public class Ui {
         }
     }
 
+    public void showKeywordList(ArrayList<Task> keywordList) {
+        if(keywordList.isEmpty()) {
+            showToUser(MESSAGE_EMPTY_MATCH);
+        } else {
+            int taskNumber = 1;
+            showToUser(MESSAGE_MATCHING_TASKS);
+            for(Task task : keywordList) {
+                showToUser(taskNumber + ". " + task.toString());
+                taskNumber++;
+            }
+        }
+    }
+
     /**
      * Prints the details of task which has just been added to the task list.
      */
@@ -95,9 +113,10 @@ public class Ui {
         int totalTasks = tasklist.getTotalTasks();
         int taskNumber;
         for(taskNumber = 0; taskNumber < totalTasks-1; taskNumber++) {
-            formattedList.append(taskNumber + 1).append(".").append(tasklist.tasks.get(taskNumber)).append("\n");
+            formattedList.append(taskNumber + 1).append(".").append(tasklist.
+                    getTask(taskNumber)).append("\n");
         }
-        formattedList.append(taskNumber + 1).append(".").append(tasklist.tasks.get(taskNumber));
+        formattedList.append(taskNumber + 1).append(".").append(tasklist.getTask(taskNumber));
         return formattedList.toString();
     }
 

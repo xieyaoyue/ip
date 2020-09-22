@@ -28,7 +28,7 @@ public class Duke {
     private static void start(String[] args) {
         ui = new Ui();
         try {
-            storage = initializeStorage(args);
+            storage = Storage.initializeStorage(args);
             tasklist = storage.load();
         } catch(DukeException e) {
             ui.showError(e.getMessage());
