@@ -59,6 +59,9 @@ public class TaskList {
         totalTasks++;
     }
 
+    /**
+     * Searches and returns tasks that contain a particular keyword
+     */
     public ArrayList<Task> findTasks(String keyword) {
         boolean hasKeyword;
         ArrayList<Task> keywordTasks = new ArrayList<>();

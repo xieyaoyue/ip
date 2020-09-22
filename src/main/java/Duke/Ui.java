@@ -56,7 +56,7 @@ public class Ui {
     }
 
     /**
-     * Prints the list of tasks recorded in the task list.
+     * Prints the list of tasks in the task list.
      */
     public void showTaskList(TaskList tasklist) {
         int totalTasks = tasklist.getTotalTasks();
@@ -67,6 +67,9 @@ public class Ui {
         }
     }
 
+    /**
+     * Prints the list of tasks in the keyword list.
+     */
     public void showKeywordList(ArrayList<Task> keywordList) {
         if(keywordList.isEmpty()) {
             showToUser(MESSAGE_EMPTY_MATCH);

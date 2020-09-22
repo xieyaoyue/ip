@@ -1,22 +1,22 @@
 package Duke.Task;
 
 /**
- * Represents a task in the task list.
+ * Represents a general task in the task list.
  */
 public class Task {
     protected String description;
     protected boolean isDone;
+
+    public Task(String description) {
+        this.description = description;
+        this.isDone = false;
+    }
 
     /**
      * Marks a task as done.
      */
     public void markAsDone() {
         this.isDone = true;
-    }
-
-    public Task(String description) {
-        this.description = description;
-        this.isDone = false;
     }
 
     /**
