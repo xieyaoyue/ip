@@ -6,6 +6,9 @@ import Duke.Ui;
 import Duke.TaskList;
 import Duke.Storage;
 
+/**
+ * Marks a task as done using its last displayed index from the task list.
+ */
 public class DoneCommand extends Command {
 
     private String details;

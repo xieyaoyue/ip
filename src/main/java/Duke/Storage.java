@@ -8,16 +8,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Represents the file used to store task list data.
+ */
 public class Storage {
     private static final String HOME = System.getProperty("user.home");
     private static final String DEFAULT_FILEPATH = HOME + File.separator + "Documents"
             + File.separator + "CS2113T" + File.separator + "tasks.txt";
     public String filepath;
 
+    /**
+     * @throws InvalidStorageFilePathException if the default file path is invalid
+     * @throws StorageOperationException if there is error in creating the storage file
+     */
     public Storage() throws InvalidStorageFilePathException, StorageOperationException {
         this(DEFAULT_FILEPATH);
     }
 
+    /**
+     * @throws InvalidStorageFilePathException if the given file path is invalid
+     * @throws StorageOperationException if there is error in creating the storage file
+     */
     public Storage(String filePath) throws InvalidStorageFilePathException, StorageOperationException {
         this.filepath = filePath;
         if(!isValidPath(filePath)) {
@@ -35,21 +46,30 @@ public class Storage {
         }
     }
 
-    private boolean isValidPath(String filePath) {
+
+    /**
+     * File path is considered valid if it ends with '.txt'
+     * Returns true if the given path is acceptable as a storage file.
+     */
+    private static boolean isValidPath(String filePath) {
         return filePath.endsWith(".txt");
     }
 
-    public static Storage initializeStorage(String[] Args) throws InvalidStorageFilePathException, StorageOperationException {
-        boolean isStorageFileSpecifiedByUser = Args.length > 0;
-        return isStorageFileSpecifiedByUser? new Storage(Args[0]) : new Storage();
-    }
-
+    /**
+     * @return task list data loaded from the storage file.
+     * @throws StorageOperationException if storage file is not found.
+     */
     public TaskList load() throws StorageOperationException {
         TaskList tasks;
         tasks = decodeFile();
         return tasks;
     }
 
+    /**
+     * Decodes the storage file and stores data into a new task list
+     * @return task list with the stored data
+     * @throws StorageOperationException if storage file is not found
+     */
     private TaskList decodeFile() throws StorageOperationException {
         File f = new File(filepath);
         TaskList tasklist = new TaskList();
@@ -83,6 +103,10 @@ public class Storage {
         return tasklist;
     }
 
+    /**
+     * Saves the task list data into the storage file.
+     * @throws StorageOperationException if there were errors storing data to the file.
+     */
     public void save(TaskList tasklist) throws StorageOperationException {
         try {
             FileWriter fw = new FileWriter(filepath);
