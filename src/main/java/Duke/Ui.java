@@ -2,7 +2,9 @@ package Duke;
 
 import java.util.Scanner;
 
-
+/**
+ * Text UI of the application.
+ */
 public class Ui {
 
     private static final String LOGO = " ____        _        \n"
@@ -24,10 +26,17 @@ public class Ui {
         this.in = new Scanner(System.in);
     }
 
+    /**
+     * Reads the text entered by the user.
+     */
     public String readCommand() {
         return in.nextLine();
     }
 
+    /**
+     * Prints welcome message upon the start of the application.
+     * @param filePath path to the storage file being used.
+     */
     public void showWelcomeMessage(String filePath) {
         String storageFileInfo = String.format(MESSAGE_USING_STORAGE_FILE, filePath);
         showToUser(LOGO, MESSAGE_WELCOME, storageFileInfo);
@@ -41,6 +50,9 @@ public class Ui {
         showToUser(errorMessage);
     }
 
+    /**
+     * Prints the list of tasks recorded in the task list.
+     */
     public void showTaskList(TaskList tasklist) {
         int totalTasks = tasklist.getTotalTasks();
         if(totalTasks==0) {
@@ -50,17 +62,26 @@ public class Ui {
         }
     }
 
+    /**
+     * Prints the details of task which has just been added to the task list.
+     */
     public void showAdd(TaskList tasklist) {
         int totalTasks = tasklist.getTotalTasks();
         String addInfo = String.format(MESSAGE_ADD, tasklist.getTask(totalTasks-1));
         showToUser(addInfo);
     }
 
+    /**
+     * Prints the details of task which has just been marked as done.
+     */
     public void showDone(TaskList tasklist, int doneNumber) {
         String doneInfo = String.format(MESSAGE_DONE, tasklist.getTask(doneNumber));
         showToUser(doneInfo);
     }
 
+    /**
+     * Prints the details of task which has just been deleted from the task list.
+     */
     public void showDelete(TaskList tasklist, int deleteNumber) {
         String deleteInfo = String.format(MESSAGE_DELETE, tasklist.getTask(deleteNumber));
         int totalTasks = tasklist.getTotalTasks() - 1;
@@ -79,6 +100,10 @@ public class Ui {
         formattedList.append(taskNumber + 1).append(".").append(tasklist.tasks.get(taskNumber));
         return formattedList.toString();
     }
+
+    /**
+     * Shows message(s) to the user.
+     */
     public void showToUser(String... message) {
         for(String m : message) {
             System.out.println(m);

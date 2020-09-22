@@ -8,6 +8,9 @@ import Duke.Ui;
 import Duke.TaskList;
 import Duke.Storage;
 
+/**
+ * Represents an incorrect command.
+ */
 public class IncorrectCommand extends Command {
 
     private String details;

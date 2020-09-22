@@ -2,10 +2,19 @@ package Duke;
 
 import Duke.Commands.*;
 
+/**
+ * Parses user input.
+ */
 public class Parser {
+
+    /**
+     * Parses user input into command for execution.
+     * @param userInput full user input string.
+     * @return the command based on the user input.
+     */
     public static Command parseCommand(String userInput) {
 
-        // remove all unnecessary spaces in input
+        // trims the input of all leading and trailing spaces so that command can be captured accurately
         userInput = userInput.trim();
 
         // input on type of task should be case-insensitive
