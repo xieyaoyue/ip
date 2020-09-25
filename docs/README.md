@@ -8,8 +8,9 @@
    3.4 Listing all tasks: `list` <br/>
    3.5 Finding tasks by keywords: `find` <br/>
    3.6 Deleting a task: `delete` <br/>
-   3.7 Saving the data <br/>
-   3.8 Exiting the program: `bye` <br/>
+   3.7 Marking a task as done: `done` <br/>
+   3.8 Saving the data <br/>
+   3.9 Exiting the program: `bye` <br/>
 4. Command Summary
 
 ## 1. Introduction
@@ -18,8 +19,9 @@ Duke is for those who prefer to work with a Command Line Interface (CLI) for man
 ## 2. Quick Start
 1. Ensure you have Java 11 or above installed in your Computer.
 2. Download the latest iP.jar.
-3. You may launch the program by double clicking the downloaded jar file, or run command java -jar <file name>.jar .
-4. Refer to Section 3, "Features" for details of each command.
+3. You may launch the program by double clicking the downloaded jar file, or run command java -jar iP.jar .
+4. Type the command and press 'Enter' on the keyboard to execute it.
+5. Refer to Section 3, "Features" for details of each command.
 
 ## 3. Features
 #### Command Format
@@ -39,7 +41,7 @@ Example:
 Adds a 'deadline' to the task list. <br/>
 Format: `deadline TASK /by DUE_TIME` <br/>
 Example:
-* `deadline submit report by 11/10/2019 5pm`
+* `deadline submit report /by 11/10/2019 5pm`
 ### 3.4 Listing all tasks: `list`
 Shows a list of tasks in the task list. <br/>
 Format: `list`
@@ -50,17 +52,23 @@ Example:
 * `find book`
 ### 3.6 Deleting a task: `delete`
 Deletes the specified task from the task list. <br/>
-Format: `delete INDEX`
-* Deletes the task at the specified INDEX.
-* The index refers to the index number shown in the displayed task list.
-* The index **must be a positive integer** 1, 2, 3, ... <br/>
+Format: `delete INDEX` <br/>
 Example:
 * `delete 1`
-### 3.7 Saving the data
+#### Note:
+* The index refers to the index number shown in the displayed task list. 
+### 3.7 Marking a task as done: `done`
+Marks the specified task from the task list as done. <br/>
+Format: `done INDEX` <br/>
+Example:
+* `done 1` <br/>
+#### Note:
+* The index refers to the index number shown in the displayed task list.
+### 3.8 Saving the data
 Task list data are saved in the hard disk automatically after any command that changes the data. <br/>
 There is no need to save manually. <br/>
 This data can be accessed during later sessions. <br/>
-### 3.8 Exiting the program: `bye`
+### 3.9 Exiting the program: `bye`
 Exits the program. <br/>
 Format: `exit`
 
@@ -76,3 +84,6 @@ Format: `exit`
   e.g. `find book`
 * `delete INDEX` <br/>
   e.g. `delete 1`
+* `done INDEX` <br/>
+  e.g. `done 1`
+* `bye`
