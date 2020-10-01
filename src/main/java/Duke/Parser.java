@@ -1,6 +1,13 @@
 package Duke;
 
-import Duke.Commands.*;
+import Duke.Commands.AddCommand;
+import Duke.Commands.Command;
+import Duke.Commands.DeleteCommand;
+import Duke.Commands.DoneCommand;
+import Duke.Commands.ExitCommand;
+import Duke.Commands.FindCommand;
+import Duke.Commands.IncorrectCommand;
+import Duke.Commands.ListCommand;
 
 /**
  * Parses user input.
@@ -40,18 +47,18 @@ public class Parser {
         String[] words = userInput.split(" ", 2);
         if(lowerCaseInput.equals("list")) {
             c = new ListCommand();
-        } else if(lowerCaseInput.startsWith("find")) {
-            c = new FindCommand(words[1]);
-        } else if(lowerCaseInput.startsWith("done")) {
-            c = new DoneCommand(words[1]);
-        } else if(lowerCaseInput.startsWith("delete")) {
-            c = new DeleteCommand(words[1]);
-        } else if(lowerCaseInput.startsWith("todo")) {
-            c = new AddCommand("todo", words[1]);
-        } else if(lowerCaseInput.startsWith("event")) {
-            c = new AddCommand("event", words[1]);
-        } else if(lowerCaseInput.startsWith("deadline")) {
-            c = new AddCommand("deadline", words[1]);
+        } else if(words[0].equalsIgnoreCase("find")) {
+            c = new FindCommand(words[1].trim());
+        } else if(words[0].equalsIgnoreCase("done")) {
+            c = new DoneCommand(words[1].trim());
+        } else if(words[0].equalsIgnoreCase("delete")) {
+            c = new DeleteCommand(words[1].trim());
+        } else if(words[0].equalsIgnoreCase("todo")) {
+            c = new AddCommand("todo", words[1].trim());
+        } else if(words[0].equalsIgnoreCase("event")) {
+            c = new AddCommand("event", words[1].trim());
+        } else if(words[0].equalsIgnoreCase("deadline")) {
+            c = new AddCommand("deadline", words[1].trim());
         } else if(!lowerCaseInput.equals("bye")) {
             c = new IncorrectCommand("unsure");
         } else {

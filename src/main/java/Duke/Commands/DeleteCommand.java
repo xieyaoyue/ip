@@ -1,5 +1,6 @@
 package Duke.Commands;
 
+import Duke.Exceptions.InvalidDeleteFormatException;
 import Duke.Exceptions.InvalidDeleteNumberException;
 import Duke.Exceptions.StorageOperationException;
 import Duke.Ui;
@@ -18,8 +19,13 @@ public class DeleteCommand extends Command {
     }
 
     public void execute(TaskList tasklist, Ui ui, Storage storage) throws InvalidDeleteNumberException,
-            StorageOperationException {
-        int deleteNumber = Integer.parseInt(details) - 1;
+            StorageOperationException, InvalidDeleteFormatException {
+        int deleteNumber;
+        try {
+            deleteNumber = Integer.parseInt(details) - 1;
+        } catch(NumberFormatException e) {
+            throw new InvalidDeleteFormatException();
+        }
         int totalTasks = tasklist.getTotalTasks();
         if (!(deleteNumber >= 0 && deleteNumber < totalTasks)) {
             throw new InvalidDeleteNumberException();

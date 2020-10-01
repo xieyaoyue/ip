@@ -1,9 +1,8 @@
 package Duke;
 
-import Duke.Task.Task;
-
 import java.util.ArrayList;
 import java.util.Scanner;
+import Duke.Task.Task;
 
 /**
  * Text UI of the application.

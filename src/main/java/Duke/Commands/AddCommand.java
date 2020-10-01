@@ -1,5 +1,6 @@
 package Duke.Commands;
 
+import Duke.Exceptions.EmptyTaskException;
 import Duke.Exceptions.NoDueTimeException;
 import Duke.Exceptions.NoEventTimeException;
 import Duke.Exceptions.StorageOperationException;
@@ -30,7 +31,7 @@ public class AddCommand extends Command {
      * @throws NoDueTimeException if the user didn't state the due time of a deadline.
      */
     public void execute(TaskList tasklist, Ui ui, Storage storage) throws NoEventTimeException,
-            NoDueTimeException, StorageOperationException {
+            NoDueTimeException, StorageOperationException, EmptyTaskException {
         String[] words;
         switch(taskType) {
         case "todo":
@@ -38,19 +39,25 @@ public class AddCommand extends Command {
             ui.showAdd(tasklist);
             break;
         case "event":
-            if (!details.matches("(.*)/at(.*)") || details.matches("(.*)/at")) {
+            if(details.matches("/at(.*)")) {
+                throw new EmptyTaskException();
+            }
+            if (details.matches("(.*)/at") || !details.contains("/at ")) {
                 throw new NoEventTimeException();
             }
             words = details.split("/at");
-            tasklist.addEvent(words[0], words[1]);
+            tasklist.addEvent(words[0].trim(), words[1].trim());
             ui.showAdd(tasklist);
             break;
         case "deadline":
-            if (!details.matches("(.*)/by(.*)") || details.matches("(.*)/by")) {
+            if(details.matches("/by(.*)")) {
+                throw new EmptyTaskException();
+            }
+            if (details.matches("(.*)/by") || !details.contains("/by ")) {
                 throw new NoDueTimeException();
             }
             words = details.split("/by");
-            tasklist.addDeadline(words[0], words[1]);
+            tasklist.addDeadline(words[0].trim(), words[1].trim());
             ui.showAdd(tasklist);
             break;
         }

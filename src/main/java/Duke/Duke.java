@@ -1,7 +1,9 @@
 package Duke;
 
-import Duke.Commands.*;
-import Duke.Exceptions.*;
+import Duke.Commands.Command;
+import Duke.Exceptions.DukeException;
+import Duke.Exceptions.InvalidStorageFilePathException;
+import Duke.Exceptions.StorageOperationException;
 
 /**
  * Entry point of the application.

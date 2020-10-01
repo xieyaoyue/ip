@@ -1,12 +1,16 @@
 package Duke.Commands;
 
-import Duke.Exceptions.*;
+import Duke.Exceptions.EmptyDoneException;
+import Duke.Exceptions.EmptyDeleteException;
+import Duke.Exceptions.EmptyTaskException;
+import Duke.Exceptions.UnsureMeaningException;
+import Duke.Exceptions.EmptyFindException;
 import Duke.Ui;
 import Duke.TaskList;
 import Duke.Storage;
 
 /**
- * Represents an incorrect command.
+ * Represents an incorrect command i.e. the format of the command is incorrect
  */
 public class IncorrectCommand extends Command {
 

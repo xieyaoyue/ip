@@ -1,7 +1,10 @@
 package Duke;
 
 import java.util.ArrayList;
-import Duke.Task.*;
+import Duke.Task.Deadline;
+import Duke.Task.Event;
+import Duke.Task.Task;
+import Duke.Task.Todo;
 
 /**
  * Represents the entire task list.

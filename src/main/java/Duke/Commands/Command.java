@@ -1,6 +1,17 @@
 package Duke.Commands;
 
-import Duke.Exceptions.*;
+import Duke.Exceptions.NoEventTimeException;
+import Duke.Exceptions.NoDueTimeException;
+import Duke.Exceptions.InvalidDeleteNumberException;
+import Duke.Exceptions.EmptyDoneException;
+import Duke.Exceptions.EmptyDeleteException;
+import Duke.Exceptions.EmptyTaskException;
+import Duke.Exceptions.UnsureMeaningException;
+import Duke.Exceptions.InvalidDoneNumberException;
+import Duke.Exceptions.StorageOperationException;
+import Duke.Exceptions.EmptyFindException;
+import Duke.Exceptions.InvalidDoneFormatException;
+import Duke.Exceptions.InvalidDeleteFormatException;
 import Duke.TaskList;
 import Duke.Ui;
 import Duke.Storage;
@@ -19,7 +30,7 @@ public abstract class Command {
             NoEventTimeException, NoDueTimeException, InvalidDeleteNumberException,
             EmptyDoneException, EmptyDeleteException, EmptyTaskException,
             UnsureMeaningException, InvalidDoneNumberException, StorageOperationException,
-            EmptyFindException;
+            EmptyFindException, InvalidDoneFormatException, InvalidDeleteFormatException;
 
     /**
      * @return true if the user wants to end program, false if otherwise.
